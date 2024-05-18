@@ -1,0 +1,84 @@
+body {
+    font-family: 'Arial', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: #e0f7fa;
+    margin: 0;
+}
+
+.game-container {
+    text-align: center;
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    width: 300px;
+}
+
+h1 {
+    color: #00796b;
+    margin-bottom: 20px;
+}
+
+.score-board h2 {
+    margin: 0;
+    padding: 0;
+    color: #00796b;
+}
+
+.level-selection {
+    margin: 20px 0;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(3, 100px);
+    grid-gap: 10px;
+    justify-content: center;
+    margin: 20px 0;
+}
+
+.hole {
+    width: 100px;
+    height: 100px;
+    background-color: #ffeb3b;
+    position: relative;
+    cursor: url('hammer.png'), pointer; /* Mengatur kursor default */
+    overflow: hidden;
+    border: 2px solid #00796b;
+    border-radius: 15px; /* Membuat bentuknya kotak dengan sudut melengkung */
+}
+
+.hole img {
+    display: none;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 80px;
+    height: 80px;
+    transform: translate(-50%, -50%);
+}
+
+.hole.active img {
+    display: block;
+}
+
+button {
+    padding: 10px 20px;
+    background-color: #00796b;
+    color: #ffffff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: #004d40;
+}
+
+.hidden {
+    display: none;
+}
