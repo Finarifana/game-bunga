@@ -6,6 +6,19 @@ body {
     height: 100vh;
     background: linear-gradient(135deg, #a8e6cf, #dcedc1);
     margin: 0;
+    transition: background-color 0.5s;
+}
+
+body.level-easy {
+    background-color: #e0f7fa;
+}
+
+body.level-medium {
+    background-color: #80deea;
+}
+
+body.level-hard {
+    background-color: #26c6da;
 }
 
 .game-container {
@@ -45,10 +58,10 @@ h1 {
     height: 100px;
     background-color: #ffeb3b;
     position: relative;
-    cursor: url('hammer.png'), pointer; /* Mengatur kursor default */
+    cursor: url('hammer.png'), pointer;
     overflow: hidden;
     border: 2px solid #00796b;
-    border-radius: 50%; /* Membuat bentuknya bulat */
+    border-radius: 50%;
 }
 
 .hole img {
@@ -59,10 +72,12 @@ h1 {
     width: 80px;
     height: 80px;
     transform: translate(-50%, -50%);
+    transition: transform 0.3s ease;
 }
 
 .hole.active img {
     display: block;
+    transform: translate(-50%, -50%) scale(1.2);
 }
 
 button {
