@@ -55,9 +55,6 @@ function whack(event) {
     if (event.currentTarget === activeHole) {
         score++;
         document.getElementById('score').textContent = score;
-        const flowerName = activeHole.querySelector('img').dataset.name;
-        const flowerDescription = activeHole.querySelector('img').dataset.description;
-        alert(`You hit a ${flowerName}! ${flowerDescription}`);
         activeHole.classList.remove('active');
         activeHole.removeEventListener('click', whack);
 
@@ -66,7 +63,7 @@ function whack(event) {
         whackSound.play();
 
         // Ganti kursor menjadi palu saat mengklik
-        document.body.style.cursor = 'url(hammer.png), pointer';
+        document.body.style.cursor = 'url(hammer.png'), pointer;
 
         // Kembalikan kursor ke default setelah beberapa milidetik
         setTimeout(() => {
