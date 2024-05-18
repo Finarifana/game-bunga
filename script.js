@@ -1,43 +1,93 @@
-document.getElementById('plant-button').addEventListener('click', plantFlower);
+let score = 0;
+let activeHole = null;
+let gameTimer = null;
+let countDownTimer = null;
+let timeLeft = 30;
+let level = 'easy';
+const levelDurations = {
+    easy: 1000,
+    medium: 700,
+    hard: 400,
+};
 
-function plantFlower() {
-    const garden = document.getElementById('garden');
-    
-    const flower = document.createElement('div');
-    flower.classList.add('flower');
-    
-    const petal1 = document.createElement('div');
-    petal1.classList.add('petal');
-    petal1.style.top = '0';
-    petal1.style.left = '50%';
-    petal1.style.transform = 'translateX(-50%)';
-    
-    const petal2 = document.createElement('div');
-    petal2.classList.add('petal');
-    petal2.style.top = '50%';
-    petal2.style.left = '0';
-    petal2.style.transform = 'translateY(-50%)';
-    
-    const petal3 = document.createElement('div');
-    petal3.classList.add('petal');
-    petal3.style.top = '50%';
-    petal3.style.right = '0';
-    petal3.style.transform = 'translateY(-50%)';
-    
-    const petal4 = document.createElement('div');
-    petal4.classList.add('petal');
-    petal4.style.top = '100%';
-    petal4.style.left = '50%';
-    petal4.style.transform = 'translate(-50%, -100%)';
-    
-    const stem = document.createElement('div');
-    stem.classList.add('stem');
-    
-    flower.appendChild(petal1);
-    flower.appendChild(petal2);
-    flower.appendChild(petal3);
-    flower.appendChild(petal4);
-    flower.appendChild(stem);
-    
-    garden.appendChild(flower);
+document.getElementById('level').addEventListener('change', (event) => {
+    level = event.target.value;
+});
+
+function getRandomHole() {
+    const holes = document.querySelectorAll('.hole');
+    const index = Math.floor(Math.random() * holes.length);
+    return holes[index];
 }
+
+function startGame() {
+    // Reset game state
+    score = 0;
+    timeLeft = 30;
+    document.getElementById('score').textContent = score;
+    document.getElementById('time').textContent = timeLeft;
+    document.getElementById('score-summary').classList.add('hidden');
+    
+    // Start music
+    const backgroundMusic = document.getElementById('background-music');
+    backgroundMusic.play();
+
+    nextHole();
+    gameTimer = setInterval(nextHole, levelDurations[level]);
+    countDownTimer = setInterval(updateTime, 1000);
+    setTimeout(endGame, 30000); // End game after 30 seconds
+}
+
+function nextHole() {
+    if (activeHole) {
+        activeHole.classList.remove('active');
+    }
+    activeHole = getRandomHole();
+    activeHole.classList.add('active');
+    activeHole.addEventListener('click', whack);
+}
+
+function whack(event) {
+    if (event.currentTarget === activeHole) {
+        score++;
+        document.getElementById('score').textContent = score;
+        activeHole.classList.remove('active');
+        activeHole.removeEventListener('click', whack);
+        
+        // Ganti kursor menjadi palu saat mengklik
+        document.body.style.cursor = 'url(hammer.png), pointer';
+        
+        // Kembalikan kursor ke default setelah beberapa milidetik
+        setTimeout(() => {
+            document.body.style.cursor = 'default';
+        }, 200);
+    }
+}
+
+function updateTime() {
+    timeLeft--;
+    document.getElementById('time').textContent = timeLeft;
+    if (timeLeft <= 0) {
+        clearInterval(countDownTimer);
+    }
+}
+
+function endGame() {
+    clearInterval(gameTimer);
+    const backgroundMusic = document.getElementById('background-music');
+    backgroundMusic.pause();
+    backgroundMusic.currentTime = 0;
+
+    // Display final score summary
+    document.getElementById('final-score').textContent = score;
+    document.getElementById('final-time').textContent = 30 - timeLeft;
+    document.getElementById('final-level').textContent = level.charAt(0).toUpperCase() + level.slice(1);
+    document.getElementById('score-summary').classList.remove('hidden');
+
+    if (activeHole) {
+        activeHole.classList.remove('active');
+        activeHole.removeEventListener('click', whack);
+    }
+}
+
+document.getElementById('startButton').addEventListener('click', startGame);
