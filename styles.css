@@ -4,7 +4,7 @@ body {
     justify-content: center;
     align-items: center;
     height: 100vh;
-    background: #e0f7fa;
+    background: linear-gradient(135deg, #a8e6cf, #dcedc1);
     margin: 0;
 }
 
@@ -14,7 +14,7 @@ body {
     padding: 20px;
     border-radius: 15px;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-    width: 300px;
+    width: 350px;
 }
 
 h1 {
@@ -48,7 +48,7 @@ h1 {
     cursor: url('hammer.png'), pointer; /* Mengatur kursor default */
     overflow: hidden;
     border: 2px solid #00796b;
-    border-radius: 15px; /* Membuat bentuknya kotak dengan sudut melengkung */
+    border-radius: 50%; /* Membuat bentuknya bulat */
 }
 
 .hole img {
