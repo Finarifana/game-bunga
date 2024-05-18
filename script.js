@@ -1,4 +1,5 @@
 let score = 0;
+let highScore = localStorage.getItem('highScore') || 0;
 let activeHole = null;
 let gameTimer = null;
 let countDownTimer = null;
@@ -10,8 +11,11 @@ const levelDurations = {
     hard: 400,
 };
 
+document.getElementById('high-score').textContent = highScore;
+
 document.getElementById('level').addEventListener('change', (event) => {
     level = event.target.value;
+    document.body.className = `level-${level}`;
 });
 
 function getRandomHole() {
@@ -27,7 +31,7 @@ function startGame() {
     document.getElementById('score').textContent = score;
     document.getElementById('time').textContent = timeLeft;
     document.getElementById('score-summary').classList.add('hidden');
-    
+
     // Start music
     const backgroundMusic = document.getElementById('background-music');
     backgroundMusic.play();
@@ -56,10 +60,14 @@ function whack(event) {
         alert(`You hit a ${flowerName}! ${flowerDescription}`);
         activeHole.classList.remove('active');
         activeHole.removeEventListener('click', whack);
-        
+
+        // Play whack sound
+        const whackSound = document.getElementById('whack-sound');
+        whackSound.play();
+
         // Ganti kursor menjadi palu saat mengklik
         document.body.style.cursor = 'url(hammer.png), pointer';
-        
+
         // Kembalikan kursor ke default setelah beberapa milidetik
         setTimeout(() => {
             document.body.style.cursor = 'default';
@@ -86,6 +94,13 @@ function endGame() {
     document.getElementById('final-time').textContent = 30 - timeLeft;
     document.getElementById('final-level').textContent = level.charAt(0).toUpperCase() + level.slice(1);
     document.getElementById('score-summary').classList.remove('hidden');
+
+    // Update high score
+    if (score > highScore) {
+        highScore = score;
+        localStorage.setItem('highScore', highScore);
+        document.getElementById('high-score').textContent = highScore;
+    }
 
     if (activeHole) {
         activeHole.classList.remove('active');
